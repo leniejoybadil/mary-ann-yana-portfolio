@@ -87,7 +87,11 @@ function Header() {
     <header className="site-header">
       <div className="nav-wrap">
         <Link className="brand" to="/" onClick={() => setOpen(false)}>
-         <img src="/ME2.jpg" alt="Mary Ann Yana" className="brand-photo" />
+          <img
+            src="/ME2.jpg"
+            alt="Mary Ann Yana"
+            className="brand-photo"
+          />
           <span>
             Mary Ann <b>Yana</b>
             <small>PORTFOLIO</small>
@@ -150,7 +154,7 @@ function PageIntro({ eyebrow, title, description }) {
   )
 }
 
-/* IMAGE POPUP — RENDERED OUTSIDE THE CAROUSEL */
+/* IMAGE POPUP */
 function ImagePopup({ src, alt, className }) {
   const [show, setShow] = React.useState(false)
 
@@ -219,6 +223,7 @@ function ImagePopup({ src, alt, className }) {
   )
 }
 
+/* HOME PAGE */
 function Home() {
   return (
     <>
@@ -269,7 +274,6 @@ function Home() {
 
           <div className="hero-visual">
             <div className="portrait-frame">
-              {/* EXCHANGED: HOME NOW USES ME2.JPG */}
               <ImagePopup
                 src="/ME2.jpg"
                 alt="Mary Ann C. Yana"
@@ -393,6 +397,7 @@ function Home() {
   )
 }
 
+/* ABOUT ME PAGE */
 function About() {
   const skills = [
     [
@@ -424,10 +429,9 @@ function About() {
 
         <section className="about-layout">
           <div className="about-photo">
-            {/* EXCHANGED: ABOUT NOW USES ME1.JPG */}
             <ImagePopup
-              src="/ME1.jpg"
-              alt="Mary Ann C. Yana"
+              src="/LPT.jpg"
+              alt="Mary Ann C. Yana, Licensed Professional Teacher"
               className="portrait-image"
             />
           </div>
@@ -509,6 +513,7 @@ function About() {
   )
 }
 
+/* EXPERIENCE PAGE */
 function Experience() {
   return (
     <>
@@ -530,7 +535,9 @@ function Experience() {
           <div className="timeline">
             {experience.map((item, index) => (
               <article className="timeline-item" key={item.title}>
-                <div className="timeline-number">0{index + 1}</div>
+                <div className="timeline-number">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
 
                 <div className="timeline-content">
                   <span className="card-kicker">{item.period}</span>
@@ -552,7 +559,9 @@ function Experience() {
           <div className="project-grid">
             {projects.map((project, index) => (
               <article className="project-card" key={project.title}>
-                <div className="project-number">0{index + 1}</div>
+                <div className="project-number">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
                 <span className="card-kicker">{project.tag}</span>
                 <h3>{project.title}</h3>
                 <p className="timeline-place">{project.place}</p>
@@ -568,8 +577,10 @@ function Experience() {
   )
 }
 
+/* CERTIFICATES PAGE — ALL 11 CERTIFICATES */
 function Certificates() {
   const trackRef = React.useRef(null)
+  const totalCertificates = 11
 
   function scrollCertificates(direction) {
     if (!trackRef.current) return
@@ -598,14 +609,16 @@ function Certificates() {
               My learning, growth & <em>achievements.</em>
             </>
           }
-          description="This section showcases my certificates, training, participation, and accomplishments as I continue to learn and grow."
+          description="This collection highlights my certificates, training, participation, and accomplishments in education, leadership, and community service. Each achievement represents a step in my continued learning and professional growth."
         />
 
         <section className="certificate-gallery-section">
           <div className="certificate-gallery-heading">
             <div>
               <span className="eyebrow">MY MILESTONES</span>
-              <h2>Every achievement tells a <em>story.</em></h2>
+              <h2>
+                Every achievement tells a <em>story.</em>
+              </h2>
             </div>
 
             <div className="certificate-controls">
@@ -630,33 +643,41 @@ function Certificates() {
           </div>
 
           <div className="certificate-track" ref={trackRef}>
-            {Array.from({ length: 8 }, (_, index) => {
-              const number = index + 1
+            {Array.from(
+              { length: totalCertificates },
+              (_, index) => {
+                const number = index + 1
 
-              return (
-                <article className="certificate-card" key={number}>
-                  <ImagePopup
-                    src={`/CERT${number}.jpg`}
-                    alt={`Certificate ${number}`}
-                    className="certificate-image"
-                  />
+                return (
+                  <article
+                    className="certificate-card"
+                    key={number}
+                  >
+                    <ImagePopup
+                      src={`/CERT${number}.jpg`}
+                      alt={`Certificate ${number}`}
+                      className="certificate-image"
+                    />
 
-                  <div className="certificate-meta">
-                    <span className="certificate-index">
-                      {String(number).padStart(2, '0')}
-                      <span className="certificate-index-divider"> / </span>
-                      08
-                    </span>
-                    <p>Certificate of achievement</p>
-                  </div>
-                </article>
-              )
-            })}
+                    <div className="certificate-meta">
+                      <span className="certificate-index">
+                        {String(number).padStart(2, '0')}
+                        <span className="certificate-index-divider">
+                          {' / '}
+                        </span>
+                        {String(totalCertificates).padStart(2, '0')}
+                      </span>
+                      <p>Certificate of achievement</p>
+                    </div>
+                  </article>
+                )
+              }
+            )}
           </div>
 
           <div className="certificate-gallery-footer">
             <span className="gallery-line" />
-            <p>Scroll to explore all 8 certificates</p>
+            <p>Scroll to explore all 11 certificates</p>
             <span className="gallery-line" />
           </div>
         </section>
@@ -667,6 +688,7 @@ function Certificates() {
   )
 }
 
+/* SK DUTIES PAGE */
 function SKDuties() {
   const duties = [
     {
@@ -701,7 +723,7 @@ function SKDuties() {
               Serving my community, <em>one initiative at a time.</em>
             </>
           }
-          description="This section highlights my SK responsibilities, youth engagement, and community service initiatives."
+          description="My public service is centered on listening to young people, supporting community needs, and helping create opportunities through education, participation, and collaboration."
         />
 
         <section className="sk-grid">
@@ -735,6 +757,7 @@ function SKDuties() {
   )
 }
 
+/* CONTACT PAGE */
 function Contact() {
   return (
     <>
@@ -742,7 +765,7 @@ function Contact() {
         <PageIntro
           eyebrow="CONTACT ME"
           title={<>Let's start a <em>conversation.</em></>}
-          description="I welcome opportunities to connect about professional work, education initiatives, youth development, and community collaboration."
+          description="I welcome opportunities to connect about professional work, education initiatives, youth development, and community collaboration. Feel free to reach out for inquiries, partnerships, and meaningful projects."
         />
 
         <section className="contact-layout">
@@ -756,8 +779,8 @@ function Contact() {
               {profile.email} <ExternalLink size={15} />
             </a>
             <p>
-              You can email me about professional inquiries and
-              collaborations.
+              You can email me about professional inquiries,
+              collaborations, and community initiatives.
             </p>
           </div>
 
@@ -787,9 +810,6 @@ function Contact() {
             <p>{profile.location}</p>
           </div>
         </section>
-
-        <p className="fine-print">
-        </p>
       </main>
 
       <Footer />
@@ -797,6 +817,7 @@ function Contact() {
   )
 }
 
+/* PAGE NOT FOUND */
 function NotFound() {
   return (
     <>
@@ -804,7 +825,7 @@ function NotFound() {
         <PageIntro
           eyebrow="PAGE NOT FOUND"
           title={<>Let's go <em>back home.</em></>}
-          description="The page you're looking for doesn't exist."
+          description="The page you're looking for doesn't exist. Return to the homepage to explore my portfolio."
         />
 
         <Link className="btn btn-primary" to="/">
@@ -817,6 +838,7 @@ function NotFound() {
   )
 }
 
+/* APP — SIX PAGES */
 function App() {
   return (
     <BrowserRouter>
