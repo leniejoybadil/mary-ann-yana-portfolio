@@ -8,6 +8,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+
   --pink: #d87598;
   --pink-dark: #b95178;
   --pink-light: #fcecf2;
@@ -94,6 +95,8 @@ h2 em {
   margin-inline: auto;
 }
 
+/* HEADER AND NAVIGATION */
+
 .site-header {
   position: sticky;
   top: 0;
@@ -179,6 +182,8 @@ h2 em {
   cursor: pointer;
 }
 
+/* GENERAL TEXT AND BUTTONS */
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -197,38 +202,6 @@ h2 em {
   border-radius: 50%;
   background: var(--pink);
   box-shadow: 0 0 0 5px var(--pink-light);
-}
-
-.hero {
-  min-height: 640px;
-  padding-block: 78px 84px;
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  align-items: center;
-  gap: 65px;
-}
-
-.hero-copy {
-  max-width: 620px;
-}
-
-.hero h1 {
-  margin: 24px 0;
-  font-size: clamp(43px, 5vw, 68px);
-  line-height: 1.12;
-}
-
-.hero-description {
-  max-width: 590px;
-  font-size: 15px;
-  line-height: 1.95;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 29px;
 }
 
 .btn {
@@ -262,6 +235,49 @@ h2 em {
   color: var(--pink-dark);
   background: #fff;
   border: 1px solid var(--border);
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--pink-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* HOME PAGE */
+
+.hero {
+  min-height: 640px;
+  padding-block: 78px 84px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 65px;
+}
+
+.hero-copy {
+  max-width: 620px;
+}
+
+.hero h1 {
+  margin: 24px 0;
+  font-size: clamp(43px, 5vw, 68px);
+  line-height: 1.12;
+}
+
+.hero-description {
+  max-width: 590px;
+  font-size: 15px;
+  line-height: 1.95;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 29px;
 }
 
 .hero-facts {
@@ -437,8 +453,7 @@ h2 em {
   flex: 1;
 }
 
-.strip-inner a,
-.text-link {
+.strip-inner a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -581,6 +596,8 @@ h2 em {
   font-size: 14px;
 }
 
+/* INNER PAGES */
+
 .inner-page {
   padding-top: 55px;
   padding-bottom: 90px;
@@ -604,6 +621,8 @@ h2 em {
   font-size: 14px;
   line-height: 1.9;
 }
+
+/* ABOUT PAGE */
 
 .about-layout {
   display: grid;
@@ -671,6 +690,8 @@ h2 em {
   font-size: 12px;
 }
 
+/* LPT FEATURE */
+
 .lpt-section {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
@@ -708,6 +729,8 @@ h2 em {
   font-size: 11px;
   text-align: center;
 }
+
+/* SKILLS */
 
 .soft-section {
   margin-top: 90px;
@@ -750,6 +773,8 @@ h2 em {
   font-size: 12px;
   line-height: 1.8;
 }
+
+/* EXPERIENCE */
 
 .compact-section {
   padding-top: 0;
@@ -830,8 +855,16 @@ h2 em {
   margin-bottom: 22px;
 }
 
+/* =================================
+   CERTIFICATES GALLERY
+   Desktop: horizontal certificate gallery
+   Mobile: large, swipeable cards
+================================= */
+
 .certificate-gallery-section {
+  width: 100%;
   min-width: 0;
+  overflow: hidden;
 }
 
 .certificate-gallery-heading {
@@ -845,11 +878,13 @@ h2 em {
 .certificate-gallery-heading h2 {
   margin: 10px 0;
   font-size: clamp(27px, 3.3vw, 38px);
+  line-height: 1.3;
 }
 
 .gallery-intro {
   margin-bottom: 0;
   font-size: 13px;
+  line-height: 1.8;
 }
 
 .certificate-controls {
@@ -863,6 +898,7 @@ h2 em {
   height: 44px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--pink-dark);
@@ -883,13 +919,17 @@ h2 em {
   gap: 24px;
   padding: 5px 3px 20px;
   overflow-x: auto;
-  overscroll-behavior-inline: contain;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
   scrollbar-color: #e2a6bc #fcecf2;
 }
 
 .certificate-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   overflow: hidden;
   scroll-snap-align: start;
@@ -897,19 +937,31 @@ h2 em {
   border-radius: 16px;
   background: white;
   box-shadow: 0 5px 18px rgba(133, 67, 91, 0.04);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.certificate-card:hover {
+  border-color: #e6b4c7;
+  box-shadow: 0 10px 25px rgba(133, 67, 91, 0.1);
 }
 
 .certificate-card .image-popup-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 240px;
+  min-height: 0;
   padding: 12px;
   background: #fff7fa;
   cursor: zoom-in;
 }
 
 .certificate-image {
+  display: block;
   width: 100%;
   height: 100%;
+  min-width: 0;
   object-fit: contain;
   border-radius: 7px;
 }
@@ -918,6 +970,7 @@ h2 em {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
   padding: 16px;
   border-top: 1px solid var(--border);
 }
@@ -934,8 +987,11 @@ h2 em {
 }
 
 .certificate-meta p {
+  min-width: 0;
   margin: 0;
   font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .certificate-gallery-footer {
@@ -956,6 +1012,8 @@ h2 em {
   flex: 1;
   background: var(--border);
 }
+
+/* SK DUTIES */
 
 .sk-grid {
   display: grid;
@@ -997,6 +1055,8 @@ h2 em {
   font-size: 13px;
   line-height: 1.9;
 }
+
+/* CONTACT */
 
 .contact-layout {
   display: grid;
@@ -1043,6 +1103,8 @@ h2 em {
   font-size: 11px;
 }
 
+/* FOOTER */
+
 .footer {
   padding: 34px max(32px, calc((100% - 1160px) / 2));
   border-top: 1px solid var(--border);
@@ -1085,6 +1147,8 @@ h2 em {
   color: var(--muted);
   font-size: 10px;
 }
+
+/* IMAGE POPUP */
 
 .image-popup-overlay {
   position: fixed;
@@ -1145,6 +1209,7 @@ h2 em {
 }
 
 /* TABLET */
+
 @media (max-width: 950px) {
   .container,
   .nav-wrap {
@@ -1192,6 +1257,7 @@ h2 em {
 
   .certificate-track {
     grid-auto-columns: minmax(240px, 43%);
+    gap: 18px;
   }
 
   .section {
@@ -1199,7 +1265,8 @@ h2 em {
   }
 }
 
-/* MOBILE NAVIGATION */
+/* MOBILE NAVIGATION AND LAYOUT */
+
 @media (max-width: 720px) {
   html {
     scroll-padding-top: 75px;
@@ -1208,10 +1275,6 @@ h2 em {
   .container,
   .nav-wrap {
     width: calc(100% - 36px);
-  }
-
-  .site-header {
-    position: sticky;
   }
 
   .nav-wrap {
@@ -1351,10 +1414,6 @@ h2 em {
   .strip-inner p {
     font-size: 13px;
     line-height: 1.8;
-  }
-
-  .strip-inner a {
-    margin-top: 3px;
   }
 
   .section {
@@ -1559,15 +1618,30 @@ h2 em {
     padding: 22px;
   }
 
+  /* CERTIFICATES: mobile-specific fix */
+
+  .certificate-gallery-section {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
   .certificate-gallery-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: 18px;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .certificate-gallery-heading > div:first-child {
+    width: 100%;
+    min-width: 0;
   }
 
   .certificate-gallery-heading h2 {
-    font-size: 29px;
-    line-height: 1.35;
+    font-size: clamp(27px, 7vw, 32px);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
   }
 
   .gallery-intro {
@@ -1579,33 +1653,73 @@ h2 em {
     align-self: flex-end;
   }
 
+  .carousel-arrow {
+    width: 42px;
+    height: 42px;
+  }
+
   .certificate-track {
-    grid-auto-columns: minmax(0, 84%);
+    width: 100%;
+    grid-auto-columns: 88%;
     gap: 15px;
-    padding-bottom: 16px;
+    padding: 4px 2px 17px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+  }
+
+  .certificate-card {
+    width: 100%;
+    min-width: 0;
+    border-radius: 15px;
+    scroll-snap-align: start;
   }
 
   .certificate-card .image-popup-trigger {
-    height: 225px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
     padding: 10px;
   }
 
+  .certificate-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .certificate-meta {
-    padding: 13px;
-    gap: 9px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .certificate-index {
+    font-size: 11px;
+    line-height: 1.7;
   }
 
   .certificate-meta p {
-    font-size: 11px;
+    font-size: 12px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
   }
 
   .certificate-gallery-footer {
     gap: 9px;
+    margin-top: 12px;
   }
 
   .certificate-gallery-footer p {
+    max-width: 80%;
     font-size: 10px;
+    line-height: 1.6;
     text-align: center;
+    white-space: normal;
   }
 
   .sk-grid {
@@ -1678,7 +1792,8 @@ h2 em {
   }
 }
 
-/* SMALL PHONES */
+/* VERY SMALL PHONES */
+
 @media (max-width: 380px) {
   .container,
   .nav-wrap {
@@ -1724,7 +1839,7 @@ h2 em {
   }
 
   .certificate-track {
-    grid-auto-columns: 90%;
+    grid-auto-columns: 92%;
   }
 
   .lpt-section,
@@ -1732,6 +1847,8 @@ h2 em {
     padding: 19px 16px;
   }
 }
+
+/* ACCESSIBILITY */
 
 @media (prefers-reduced-motion: reduce) {
   *,
