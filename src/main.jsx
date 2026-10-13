@@ -16,6 +16,7 @@ import {
   Mail,
   MapPin,
   Menu,
+  X,
   HeartHandshake,
   GraduationCap,
   UsersRound,
@@ -32,7 +33,7 @@ const profile = {
   email: 'yanaann65@gmail.com',
   phone: '09501560415',
   location: 'Brgy. Lampianao, Calinan District, Davao City, Philippines',
-  bio: 'I am a graduate of Bachelor of Secondary Education, major in English, from the University of Mindanao (2023–2024), and a Licensed Professional Teacher (LPT) since March 2025. Through my experience in education, youth leadership, and public service, I strive to empower young people and contribute to meaningful community development.'
+  bio: 'I am a Bachelor of Secondary Education graduate majoring in English from the University of Mindanao and a Licensed Professional Teacher since March 2025. Through my experiences in education, youth leadership, and public service, I strive to empower young people, support learning, and contribute to meaningful community development.'
 }
 
 const experience = [
@@ -40,19 +41,19 @@ const experience = [
     title: 'Sangguniang Kabataan (SK) Chairperson',
     place: 'Brgy. Lampianao, Calinan District, Davao City',
     period: 'Current Term',
-    text: 'As an SK Chairperson, I represent the youth in our Barangay Council, support youth-focused policies and planning, and lead initiatives focused on education, sports, health, and environmental sustainability.'
+    text: 'I represent the youth in the Barangay Council and help plan and implement programs that address their needs. My responsibilities include supporting youth participation, education, sports, health, environmental awareness, and community development.'
   },
   {
     title: 'Task Force Youth Development (TFYD) President',
     place: 'Brgy. Lampianao, Calinan District, Davao City',
     period: '2015–2016',
-    text: 'I led local youth development efforts and supported community organizing, action planning, public budgeting, and youth policy advocacy.'
+    text: 'I helped lead youth development initiatives, encourage community participation, and support action planning, youth organizing, and activities that promote responsible and active citizenship.'
   },
   {
     title: 'Pangulo sa Batan-on (PSB) / Youth President',
     place: 'Local Parish / GKK Church Religious Organization',
     period: '2014–2024',
-    text: 'I helped lead spiritual, moral, and values-formation activities for parish and community youth. I also supported event coordination and encouraged young people to participate in community activities.'
+    text: 'I supported spiritual, moral, and values-formation activities for parish youth. I also helped coordinate events, encourage volunteer participation, and promote unity and cooperation among young people.'
   }
 ]
 
@@ -60,15 +61,29 @@ const projects = [
   {
     title: 'Balik Eskwela Program',
     place: 'Lampianao Elementary School',
-    text: 'I helped mobilize community support for students returning to school by helping provide learning materials, school supplies, and hygiene kits. I also worked with school personnel and volunteers to prepare classrooms and support school safety checks.',
-    tag: 'Education & Community'
+    tag: 'Education & Community',
+    text: 'I helped mobilize community support for students preparing for the school year through learning materials, school supplies, and hygiene kits. I also assisted school personnel and volunteers in classroom preparation and school readiness activities.'
   },
   {
     title: 'Preschool Tutoring Program',
     place: 'Lampianao Daycare Center',
-    text: 'I supported early childhood learning through reading, writing, and phonics activities designed to help preschoolers strengthen their foundational literacy skills and prepare for primary education.',
-    tag: 'Teaching & Literacy'
+    tag: 'Teaching & Literacy',
+    text: 'I supported early childhood learning through reading, writing, and phonics activities. These activities helped preschoolers practice foundational literacy skills and prepare for their transition to primary education.'
   }
+]
+
+const certificates = [
+  { file: 'CERT1.jpg', title: 'Certificate 1' },
+  { file: 'CERT2.jpg', title: 'Certificate 2' },
+  { file: 'CERT3.jpg', title: 'Certificate 3' },
+  { file: 'CERT4.jpg', title: 'Certificate 4' },
+  { file: 'CERT5.jpg', title: 'Certificate 5' },
+  { file: 'CERT6.jpg', title: 'Certificate 6' },
+  { file: 'CERT7.jpg', title: 'Certificate 7' },
+  { file: 'CERT8.jpg', title: 'Certificate 8' },
+  { file: 'CERT9.jpg', title: 'Certificate 9' },
+  { file: 'CERT10.jpg', title: 'Certificate 10' },
+  { file: 'CERT11.jpg', title: 'Certificate 11' }
 ]
 
 const nav = [
@@ -83,15 +98,20 @@ const nav = [
 function Header() {
   const [open, setOpen] = React.useState(false)
 
+  React.useEffect(() => {
+    function closeOnEscape(event) {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    document.addEventListener('keydown', closeOnEscape)
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [])
+
   return (
     <header className="site-header">
       <div className="nav-wrap">
         <Link className="brand" to="/" onClick={() => setOpen(false)}>
-          <img
-            src="/ME2.jpg"
-            alt="Mary Ann Yana"
-            className="brand-photo"
-          />
+          <img src="/ME2.jpg" alt="" className="brand-photo" />
           <span>
             Mary Ann <b>Yana</b>
             <small>PORTFOLIO</small>
@@ -101,11 +121,11 @@ function Header() {
         <button
           className="menu-toggle"
           type="button"
-          aria-label="Toggle navigation"
+          aria-label={open ? 'Close navigation' : 'Open navigation'}
           aria-expanded={open}
           onClick={() => setOpen(!open)}
         >
-          <Menu size={21} />
+          {open ? <X size={23} /> : <Menu size={23} />}
         </button>
 
         <nav className={open ? 'nav-links open' : 'nav-links'}>
@@ -128,15 +148,15 @@ function Header() {
 function Footer() {
   return (
     <footer className="footer">
-      <div>
-        <span className="footer-name">{profile.name}</span>
-        <p>Education · Leadership · Community Service</p>
+      <div className="footer-main">
+        <div>
+          <span className="footer-name">{profile.name}</span>
+          <p>Education · Leadership · Community Service</p>
+        </div>
+        <a href={`mailto:${profile.email}`}>
+          {profile.email} <ArrowUpRight size={16} />
+        </a>
       </div>
-
-      <a href={`mailto:${profile.email}`}>
-        {profile.email} <ArrowUpRight size={15} />
-      </a>
-
       <small>
         © {new Date().getFullYear()} {profile.name}. All rights reserved.
       </small>
@@ -154,9 +174,9 @@ function PageIntro({ eyebrow, title, description }) {
   )
 }
 
-/* IMAGE POPUP */
-function ImagePopup({ src, alt, className }) {
+function ImagePopup({ src, alt, className = '' }) {
   const [show, setShow] = React.useState(false)
+  const [imageFailed, setImageFailed] = React.useState(false)
 
   React.useEffect(() => {
     if (!show) return
@@ -164,9 +184,7 @@ function ImagePopup({ src, alt, className }) {
     const previousOverflow = document.body.style.overflow
 
     function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        setShow(false)
-      }
+      if (event.key === 'Escape') setShow(false)
     }
 
     document.body.style.overflow = 'hidden'
@@ -177,6 +195,15 @@ function ImagePopup({ src, alt, className }) {
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [show])
+
+  if (imageFailed) {
+    return (
+      <div className={`image-placeholder ${className}`}>
+        <span>Image unavailable</span>
+        <small>{src}</small>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -191,39 +218,37 @@ function ImagePopup({ src, alt, className }) {
           alt={alt}
           className={className}
           loading="lazy"
+          onError={() => setImageFailed(true)}
         />
       </button>
 
-      {show &&
-        createPortal(
-          <div
-            className="image-popup-overlay"
+      {show && createPortal(
+        <div
+          className="image-popup-overlay"
+          onClick={() => setShow(false)}
+          role="presentation"
+        >
+          <button
+            type="button"
+            className="image-popup-close"
             onClick={() => setShow(false)}
-            role="presentation"
+            aria-label="Close image"
           >
-            <button
-              type="button"
-              className="image-popup-close"
-              onClick={() => setShow(false)}
-              aria-label="Close enlarged image"
-            >
-              &times;
-            </button>
-
-            <img
-              src={src}
-              alt={alt}
-              className="image-popup-full"
-              onClick={(event) => event.stopPropagation()}
-            />
-          </div>,
-          document.body
-        )}
+            <X size={25} />
+          </button>
+          <img
+            src={src}
+            alt={alt}
+            className="image-popup-full"
+            onClick={event => event.stopPropagation()}
+          />
+        </div>,
+        document.body
+      )}
     </>
   )
 }
 
-/* HOME PAGE */
 function Home() {
   return (
     <>
@@ -247,7 +272,6 @@ function Home() {
               <Link className="btn btn-primary" to="/about">
                 Get to know me <ArrowUpRight size={17} />
               </Link>
-
               <Link className="btn btn-secondary" to="/contact">
                 Contact me
               </Link>
@@ -261,7 +285,6 @@ function Home() {
                   <small>University of Mindanao</small>
                 </span>
               </div>
-
               <div>
                 <HeartHandshake />
                 <span>
@@ -280,17 +303,13 @@ function Home() {
                 className="portrait-image"
               />
             </div>
-
             <div className="floating-note">
-              <span className="note-icon">
-                <Award size={19} />
-              </span>
+              <span className="note-icon"><Award size={19} /></span>
               <span>
                 <b>Purpose-driven leadership</b>
                 <small>Making a difference in my community</small>
               </span>
             </div>
-
             <div className="decor-circle circle-one" />
             <div className="decor-circle circle-two" />
           </div>
@@ -300,8 +319,8 @@ function Home() {
           <div className="container strip-inner">
             <span>MY FOCUS</span>
             <p>
-              I believe in empowering young people through education,
-              thoughtful leadership, and community action.
+              Empowering young people through education, thoughtful
+              leadership, and meaningful community action.
             </p>
             <Link to="/experience">
               Explore my work <ArrowUpRight size={16} />
@@ -313,11 +332,8 @@ function Home() {
           <div className="section-heading">
             <div>
               <span className="eyebrow">A LITTLE ABOUT ME</span>
-              <h2>
-                Where education meets <em>community.</em>
-              </h2>
+              <h2>Where education meets <em>community.</em></h2>
             </div>
-
             <Link className="text-link" to="/about">
               My story <ArrowUpRight size={16} />
             </Link>
@@ -325,41 +341,32 @@ function Home() {
 
           <div className="feature-grid">
             <article className="feature-card">
-              <span className="feature-icon">
-                <BookOpen />
-              </span>
+              <span className="feature-icon"><BookOpen /></span>
               <span className="card-kicker">01 / EDUCATION</span>
               <h3>Teaching & literacy</h3>
               <p>
-                I value learning and enjoy supporting literacy through
-                instructional communication, lesson planning, and
-                educational initiatives.
+                I value learning and support literacy through educational
+                activities, lesson planning, and clear communication.
               </p>
             </article>
 
             <article className="feature-card feature-highlight">
-              <span className="feature-icon">
-                <UsersRound />
-              </span>
+              <span className="feature-icon"><UsersRound /></span>
               <span className="card-kicker">02 / LEADERSHIP</span>
               <h3>Youth empowerment</h3>
               <p>
                 I work with young people and community partners to
-                encourage participation and help develop inclusive,
-                meaningful programs.
+                encourage participation and inclusive youth programs.
               </p>
             </article>
 
             <article className="feature-card">
-              <span className="feature-icon">
-                <HeartHandshake />
-              </span>
+              <span className="feature-icon"><HeartHandshake /></span>
               <span className="card-kicker">03 / SERVICE</span>
               <h3>Community initiatives</h3>
               <p>
-                I support educational and youth development projects
-                that respond to community needs and create opportunities
-                for others.
+                I support projects that respond to community needs,
+                encourage cooperation, and create opportunities for others.
               </p>
             </article>
           </div>
@@ -368,8 +375,8 @@ function Home() {
         <section className="quote-section">
           <div className="quote-mark">“</div>
           <blockquote>
-            I believe meaningful leadership begins with listening,
-            learning, and showing up for the community.
+            Meaningful leadership begins with listening, learning,
+            and showing up for the community.
           </blockquote>
           <span>MY APPROACH TO SERVICE</span>
         </section>
@@ -377,45 +384,40 @@ function Home() {
         <section className="section container cta-section">
           <div>
             <span className="eyebrow">LET'S CONNECT</span>
-            <h2>
-              Let's create a positive <em>impact.</em>
-            </h2>
+            <h2>Let's create a positive <em>impact.</em></h2>
             <p>
-              I welcome opportunities to connect through education,
+              I welcome opportunities in education, youth development,
               community initiatives, and meaningful collaborations.
             </p>
           </div>
-
           <Link className="btn btn-primary" to="/contact">
             Contact me <ArrowUpRight size={17} />
           </Link>
         </section>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* ABOUT ME PAGE */
 function About() {
   const skills = [
-    [
-      'Leadership & Governance',
-      'Youth advocacy, public administration, session facilitation, and action planning'
-    ],
-    [
-      'Education & Instruction',
-      'Lesson planning, literacy support, classroom management, and instructional communication'
-    ],
-    [
-      'Community Engagement',
-      'Volunteer coordination, grassroots organizing, and community programs'
-    ],
-    [
-      'Communication',
-      'Public speaking, seminar facilitation, and clear presentation of ideas'
-    ]
+    {
+      title: 'Leadership & Governance',
+      description: 'Youth advocacy, public administration, facilitation, and action planning.'
+    },
+    {
+      title: 'Education & Instruction',
+      description: 'Lesson planning, literacy support, classroom management, and instructional communication.'
+    },
+    {
+      title: 'Community Engagement',
+      description: 'Volunteer coordination, grassroots organizing, and community programs.'
+    },
+    {
+      title: 'Communication',
+      description: 'Public speaking, seminar facilitation, collaboration, and presentation.'
+    }
   ]
 
   return (
@@ -424,25 +426,21 @@ function About() {
         <PageIntro
           eyebrow="GET TO KNOW ME"
           title={<>A little about <em>me.</em></>}
-          description="I am an educator and community leader committed to youth development, learning, and public service."
+          description="I am an educator and community leader committed to learning, youth development, and public service."
         />
 
         <section className="about-layout">
           <div className="about-photo">
             <ImagePopup
-              src="/LPT.jpg"
-              alt="Mary Ann C. Yana, Licensed Professional Teacher"
+              src="/ME1.jpg"
+              alt="Mary Ann C. Yana"
               className="portrait-image"
             />
           </div>
 
           <div className="about-copy">
             <span className="eyebrow">MY STORY</span>
-            <h2>
-              Grounded in learning.
-              <br />
-              <em>Driven by service.</em>
-            </h2>
+            <h2>Grounded in learning.<br /><em>Driven by service.</em></h2>
 
             <p>{profile.bio}</p>
 
@@ -460,25 +458,21 @@ function About() {
                 <b>Licensed Professional Teacher (LPT)</b>
                 <small>March 2025</small>
               </div>
-
               <div>
                 <span>College Education</span>
                 <b>Bachelor of Secondary Education, Major in English</b>
                 <small>University of Mindanao | 2023–2024</small>
               </div>
-
               <div>
                 <span>Senior High School</span>
                 <b>Humanities and Social Sciences (HUMSS)</b>
                 <small>Holy Cross College of Calinan | 2018–2019</small>
               </div>
-
               <div>
                 <span>Youth Leadership</span>
                 <b>Task Force Youth Development (TFYD) President</b>
                 <small>2015–2016</small>
               </div>
-
               <div>
                 <span>Community Leadership</span>
                 <b>Pangulo sa Batan-on (PSB) / Youth President</b>
@@ -488,32 +482,56 @@ function About() {
           </div>
         </section>
 
+        <section className="lpt-section">
+          <div className="lpt-copy">
+            <span className="eyebrow">A PROFESSIONAL MILESTONE</span>
+            <h2>A journey of hard work and <em>dedication.</em></h2>
+            <p>
+              Becoming a Licensed Professional Teacher is an important
+              milestone in my educational journey. The LPT photo below
+              highlights the board-exam passer list associated with this
+              achievement.
+            </p>
+            <p>
+              This milestone strengthens my commitment to education,
+              lifelong learning, and serving as a positive influence
+              in the community.
+            </p>
+          </div>
+          <div className="lpt-photo">
+            <ImagePopup
+              src="/LPT.jpg"
+              alt="Licensed Professional Teacher board-exam passer list"
+              className="lpt-image"
+            />
+            <span className="image-caption">
+              Licensed Professional Teacher — board-exam passer list
+            </span>
+          </div>
+        </section>
+
         <section className="section soft-section">
           <span className="eyebrow">CORE SKILLS</span>
-          <h2>
-            Skills I bring to the <em>table.</em>
-          </h2>
+          <h2>Skills I bring to the <em>table.</em></h2>
 
           <div className="skills-grid">
-            {skills.map(([title, description]) => (
-              <div className="skill-row" key={title}>
+            {skills.map(skill => (
+              <div className="skill-row" key={skill.title}>
                 <span className="skill-check">✳</span>
                 <div>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
+                  <h3>{skill.title}</h3>
+                  <p>{skill.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* EXPERIENCE PAGE */
 function Experience() {
   return (
     <>
@@ -521,7 +539,7 @@ function Experience() {
         <PageIntro
           eyebrow="EXPERIENCE & IMPACT"
           title={<>Leadership in <em>action.</em></>}
-          description="Here are some of the leadership roles and community initiatives that have shaped my commitment to youth development, education, and service."
+          description="My leadership roles and community initiatives reflect my commitment to youth development, education, collaboration, and public service."
         />
 
         <section className="section compact-section">
@@ -538,7 +556,6 @@ function Experience() {
                 <div className="timeline-number">
                   {String(index + 1).padStart(2, '0')}
                 </div>
-
                 <div className="timeline-content">
                   <span className="card-kicker">{item.period}</span>
                   <h3>{item.title}</h3>
@@ -552,9 +569,7 @@ function Experience() {
 
         <section className="section project-section">
           <span className="eyebrow">SELECTED INITIATIVES</span>
-          <h2>
-            Projects with a <em>purpose.</em>
-          </h2>
+          <h2>Projects with a <em>purpose.</em></h2>
 
           <div className="project-grid">
             {projects.map((project, index) => (
@@ -571,30 +586,24 @@ function Experience() {
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* CERTIFICATES PAGE — ALL 11 CERTIFICATES */
 function Certificates() {
   const trackRef = React.useRef(null)
-  const totalCertificates = 11
 
   function scrollCertificates(direction) {
-    if (!trackRef.current) return
-
     const track = trackRef.current
+    if (!track) return
+
     const card = track.querySelector('.certificate-card')
-    const styles = window.getComputedStyle(track)
-    const gap = parseFloat(styles.columnGap) || 22
-    const cardWidth = card
-      ? card.getBoundingClientRect().width + gap
-      : 300
+    const gap = 24
+    const width = card ? card.getBoundingClientRect().width : 300
 
     track.scrollBy({
-      left: direction * cardWidth * 2,
+      left: direction * (width + gap) * 2,
       behavior: 'smooth'
     })
   }
@@ -604,21 +613,19 @@ function Certificates() {
       <main className="container inner-page">
         <PageIntro
           eyebrow="CERTIFICATES & RECOGNITION"
-          title={
-            <>
-              My learning, growth & <em>achievements.</em>
-            </>
-          }
-          description="This collection highlights my certificates, training, participation, and accomplishments in education, leadership, and community service. Each achievement represents a step in my continued learning and professional growth."
+          title={<>My learning, growth & <em>achievements.</em></>}
+          description="This collection showcases my certificates, training, participation, and accomplishments. Each milestone represents my continued learning and commitment to personal and professional growth."
         />
 
         <section className="certificate-gallery-section">
           <div className="certificate-gallery-heading">
             <div>
               <span className="eyebrow">MY MILESTONES</span>
-              <h2>
-                Every achievement tells a <em>story.</em>
-              </h2>
+              <h2>Every achievement tells a <em>story.</em></h2>
+              <p className="gallery-intro">
+                Explore my certificates and milestones.
+                Select any image to view it in a larger format.
+              </p>
             </div>
 
             <div className="certificate-controls">
@@ -630,7 +637,6 @@ function Certificates() {
               >
                 <ChevronLeft size={22} />
               </button>
-
               <button
                 type="button"
                 className="carousel-arrow"
@@ -643,73 +649,58 @@ function Certificates() {
           </div>
 
           <div className="certificate-track" ref={trackRef}>
-            {Array.from(
-              { length: totalCertificates },
-              (_, index) => {
-                const number = index + 1
-
-                return (
-                  <article
-                    className="certificate-card"
-                    key={number}
-                  >
-                    <ImagePopup
-                      src={`/CERT${number}.jpg`}
-                      alt={`Certificate ${number}`}
-                      className="certificate-image"
-                    />
-
-                    <div className="certificate-meta">
-                      <span className="certificate-index">
-                        {String(number).padStart(2, '0')}
-                        <span className="certificate-index-divider">
-                          {' / '}
-                        </span>
-                        {String(totalCertificates).padStart(2, '0')}
-                      </span>
-                      <p>Certificate of achievement</p>
-                    </div>
-                  </article>
-                )
-              }
-            )}
+            {certificates.map((certificate, index) => (
+              <article className="certificate-card" key={certificate.file}>
+                <ImagePopup
+                  src={`/${certificate.file}`}
+                  alt={certificate.title}
+                  className="certificate-image"
+                />
+                <div className="certificate-meta">
+                  <span className="certificate-index">
+                    {String(index + 1).padStart(2, '0')}
+                    <span className="certificate-index-divider"> / </span>
+                    {String(certificates.length).padStart(2, '0')}
+                  </span>
+                  <p>{certificate.title}</p>
+                </div>
+              </article>
+            ))}
           </div>
 
           <div className="certificate-gallery-footer">
             <span className="gallery-line" />
-            <p>Scroll to explore all 11 certificates</p>
+            <p>11 certificates · Select an image to enlarge</p>
             <span className="gallery-line" />
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* SK DUTIES PAGE */
 function SKDuties() {
   const duties = [
     {
-      file: 'SK1',
+      file: 'SK1.jpg',
       title: 'Youth Representation & Governance',
-      description: 'I represent youth concerns in local governance and support youth-focused planning and policies.'
+      description: 'I represent youth concerns in local governance and support youth-focused planning, participation, and policies that respond to the needs of our community.'
     },
     {
-      file: 'SK2',
+      file: 'SK2.jpg',
       title: 'Education & Student Support',
-      description: 'I support community education initiatives, including Balik Eskwela activities, learning supplies, and school readiness support.'
+      description: 'I support community education initiatives, including Balik Eskwela activities, learning supplies, and school readiness efforts for students.'
     },
     {
-      file: 'SK3',
+      file: 'SK3.jpg',
       title: 'Youth Development & Engagement',
-      description: 'I help coordinate youth-focused programs that encourage participation, inclusion, and empowerment.'
+      description: 'I help coordinate youth-focused programs that encourage active participation, inclusion, leadership, and empowerment.'
     },
     {
-      file: 'SK4',
+      file: 'SK4.jpg',
       title: 'Community Service & Collaboration',
-      description: 'I work with school personnel, volunteers, and community partners to support initiatives that respond to local needs.'
+      description: 'I work with volunteers, school personnel, and community partners to support projects that respond to local needs and promote cooperation.'
     }
   ]
 
@@ -718,23 +709,18 @@ function SKDuties() {
       <main className="container inner-page">
         <PageIntro
           eyebrow="MY PUBLIC SERVICE"
-          title={
-            <>
-              Serving my community, <em>one initiative at a time.</em>
-            </>
-          }
-          description="My public service is centered on listening to young people, supporting community needs, and helping create opportunities through education, participation, and collaboration."
+          title={<>Serving my community, <em>one initiative at a time.</em></>}
+          description="Public service means listening to young people, supporting community needs, and helping create opportunities through education, participation, and collaboration."
         />
 
         <section className="sk-grid">
           {duties.map(({ file, title, description }) => (
             <article className="sk-card" key={file}>
               <ImagePopup
-                src={`/${file}.jpg`}
+                src={`/${file}`}
                 alt={title}
                 className="sk-activity-image"
               />
-
               <div className="sk-card-copy">
                 <span className="card-kicker">
                   MY SK DUTIES & COMMUNITY WORK
@@ -745,19 +731,12 @@ function SKDuties() {
             </article>
           ))}
         </section>
-
-        <p className="fine-print">
-          Please verify that each caption accurately describes the
-          activity shown in the corresponding photo.
-        </p>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* CONTACT PAGE */
 function Contact() {
   return (
     <>
@@ -765,29 +744,22 @@ function Contact() {
         <PageIntro
           eyebrow="CONTACT ME"
           title={<>Let's start a <em>conversation.</em></>}
-          description="I welcome opportunities to connect about professional work, education initiatives, youth development, and community collaboration. Feel free to reach out for inquiries, partnerships, and meaningful projects."
+          description="I welcome opportunities to connect about professional work, educational initiatives, youth development, and community collaboration."
         />
 
         <section className="contact-layout">
-          <div className="contact-card">
-            <span className="feature-icon">
-              <Mail />
-            </span>
+          <article className="contact-card">
+            <span className="feature-icon"><Mail /></span>
             <span className="card-kicker">EMAIL</span>
             <h3>Let's connect by email.</h3>
             <a className="contact-link" href={`mailto:${profile.email}`}>
               {profile.email} <ExternalLink size={15} />
             </a>
-            <p>
-              You can email me about professional inquiries,
-              collaborations, and community initiatives.
-            </p>
-          </div>
+            <p>For professional inquiries, partnerships, and collaborations.</p>
+          </article>
 
-          <div className="contact-card">
-            <span className="feature-icon">
-              <BriefcaseBusiness />
-            </span>
+          <article className="contact-card">
+            <span className="feature-icon"><BriefcaseBusiness /></span>
             <span className="card-kicker">PHONE</span>
             <h3>Reach me directly.</h3>
             <a
@@ -796,28 +768,22 @@ function Contact() {
             >
               {profile.phone} <ExternalLink size={15} />
             </a>
-            <p>
-              Feel free to contact me by phone when appropriate.
-            </p>
-          </div>
+            <p>Feel free to contact me by phone when appropriate.</p>
+          </article>
 
-          <div className="contact-card wide">
-            <span className="feature-icon">
-              <MapPin />
-            </span>
+          <article className="contact-card wide">
+            <span className="feature-icon"><MapPin /></span>
             <span className="card-kicker">LOCATION</span>
             <h3>Davao City, Philippines</h3>
             <p>{profile.location}</p>
-          </div>
+          </article>
         </section>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* PAGE NOT FOUND */
 function NotFound() {
   return (
     <>
@@ -827,23 +793,17 @@ function NotFound() {
           title={<>Let's go <em>back home.</em></>}
           description="The page you're looking for doesn't exist. Return to the homepage to explore my portfolio."
         />
-
-        <Link className="btn btn-primary" to="/">
-          Return home
-        </Link>
+        <Link className="btn btn-primary" to="/">Return home</Link>
       </main>
-
       <Footer />
     </>
   )
 }
 
-/* APP — SIX PAGES */
 function App() {
   return (
     <BrowserRouter>
       <Header />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
