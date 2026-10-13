@@ -248,17 +248,98 @@ h2 em {
   font-weight: 700;
 }
 
-/* PRINT PORTFOLIO BUTTON */
 
-.print-portfolio-btn {
-  flex-shrink: 0;
-  white-space: nowrap;
-  min-height: 42px;
-  padding: 10px 13px;
-}
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
 
-.print-portfolio-btn svg {
-  flex-shrink: 0;
+  html,
+  body,
+  #root {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide only controls that should not appear on paper */
+  nav,
+  .print-button,
+  .no-print,
+  button,
+  .mobile-menu,
+  footer .social-links {
+    /* Remove this rule if any hidden element contains portfolio content */
+    display: none !important;
+  }
+
+  /* Make sure main content and sections are visible */
+  main,
+  main *,
+  section,
+  .container,
+  .project-card,
+  .card,
+  .contact-card,
+  .grid,
+  .projects-grid {
+    visibility: visible !important;
+    overflow: visible !important;
+  }
+
+  main,
+  section,
+  .container {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Preserve photos and project images */
+  img,
+  picture,
+  figure {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  img {
+    height: auto;
+    object-fit: contain !important;
+  }
+
+  /* Preserve cards and layouts as much as possible */
+  .project-card,
+  .card,
+  .contact-card,
+  figure {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Avoid cutting off content */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    text-shadow: none !important;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
 }
 
 /* HOME PAGE */
