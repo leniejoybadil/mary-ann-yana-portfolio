@@ -23,7 +23,9 @@ import {
   Award,
   ExternalLink,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Linkedin,
+  Printer
 } from 'lucide-react'
 import './styles.css'
 
@@ -33,6 +35,7 @@ const profile = {
   email: 'yanaann65@gmail.com',
   phone: '09501560415',
   location: 'Brgy. Lampianao, Calinan District, Davao City, Philippines',
+  linkedin: 'https://www.linkedin.com/in/mary-ann-y-9474b21b9/',
   bio: 'I am a Bachelor of Secondary Education graduate majoring in English from the University of Mindanao and a Licensed Professional Teacher since March 2025. Through my experiences in education, youth leadership, and public service, I strive to empower young people, support learning, and contribute to meaningful community development.'
 }
 
@@ -72,19 +75,10 @@ const projects = [
   }
 ]
 
-const certificates = [
-  { file: 'CERT1.jpg', title: 'Certificate 1' },
-  { file: 'CERT2.jpg', title: 'Certificate 2' },
-  { file: 'CERT3.jpg', title: 'Certificate 3' },
-  { file: 'CERT4.jpg', title: 'Certificate 4' },
-  { file: 'CERT5.jpg', title: 'Certificate 5' },
-  { file: 'CERT6.jpg', title: 'Certificate 6' },
-  { file: 'CERT7.jpg', title: 'Certificate 7' },
-  { file: 'CERT8.jpg', title: 'Certificate 8' },
-  { file: 'CERT9.jpg', title: 'Certificate 9' },
-  { file: 'CERT10.jpg', title: 'Certificate 10' },
-  { file: 'CERT11.jpg', title: 'Certificate 11' }
-]
+const certificates = Array.from({ length: 11 }, (_, i) => ({
+  file: `CERT${i + 1}.jpg`,
+  title: `Certificate ${i + 1}`
+}))
 
 const nav = [
   ['Home', '/'],
@@ -94,6 +88,238 @@ const nav = [
   ['SK Duties', '/sk-duties'],
   ['Contact', '/contact']
 ]
+
+const skills = [
+  {
+    title: 'Leadership & Governance',
+    description: 'Youth advocacy, public administration, facilitation, and action planning.'
+  },
+  {
+    title: 'Education & Instruction',
+    description: 'Lesson planning, literacy support, classroom management, and instructional communication.'
+  },
+  {
+    title: 'Community Engagement',
+    description: 'Volunteer coordination, grassroots organizing, and community programs.'
+  },
+  {
+    title: 'Communication',
+    description: 'Public speaking, seminar facilitation, collaboration, and presentation.'
+  }
+]
+
+const duties = [
+  {
+    file: 'SK1.jpg',
+    title: 'Youth Representation & Governance',
+    description: 'I represent youth concerns in local governance and support youth-focused planning, participation, and policies that respond to the needs of our community.'
+  },
+  {
+    file: 'SK2.jpg',
+    title: 'Education & Student Support',
+    description: 'I support community education initiatives, including Balik Eskwela activities, learning supplies, and school readiness efforts for students.'
+  },
+  {
+    file: 'SK3.jpg',
+    title: 'Youth Development & Engagement',
+    description: 'I help coordinate youth-focused programs that encourage active participation, inclusion, leadership, and empowerment.'
+  },
+  {
+    file: 'SK4.jpg',
+    title: 'Community Service & Collaboration',
+    description: 'I work with volunteers, school personnel, and community partners to support projects that respond to local needs and promote cooperation.'
+  }
+]
+
+function printPortfolio() {
+  const printWindow = window.open('', '_blank')
+
+  if (!printWindow) {
+    alert('Please allow pop-ups for this website to print or save your portfolio.')
+    return
+  }
+
+  const escapeHtml = value =>
+    String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char])
+
+  const experienceHTML = experience.map(item => `
+    <article>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p class="meta">${escapeHtml(item.place)} · ${escapeHtml(item.period)}</p>
+      <p>${escapeHtml(item.text)}</p>
+    </article>
+  `).join('')
+
+  const projectsHTML = projects.map(item => `
+    <article>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p class="meta">${escapeHtml(item.place)} · ${escapeHtml(item.tag)}</p>
+      <p>${escapeHtml(item.text)}</p>
+    </article>
+  `).join('')
+
+  const skillsHTML = skills.map(item => `
+    <li><strong>${escapeHtml(item.title)}:</strong>
+    ${escapeHtml(item.description)}</li>
+  `).join('')
+
+  const certificatesHTML = certificates.map(item =>
+    `<li>${escapeHtml(item.title)}</li>`
+  ).join('')
+
+  const dutiesHTML = duties.map(item => `
+    <article>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p>${escapeHtml(item.description)}</p>
+    </article>
+  `).join('')
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>${escapeHtml(profile.name)} - Professional Portfolio</title>
+      <style>
+        @page { size: A4; margin: 18mm; }
+        * { box-sizing: border-box; }
+        body {
+          font-family: Arial, sans-serif;
+          color: #44343b;
+          line-height: 1.6;
+          font-size: 10.5pt;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+        header {
+          border-bottom: 3px solid #b95178;
+          padding-bottom: 18px;
+          margin-bottom: 25px;
+        }
+        h1 { color: #b95178; font-size: 27pt; margin: 0 0 5px; }
+        h2 {
+          color: #b95178;
+          font-size: 16pt;
+          border-bottom: 1px solid #f0dce4;
+          padding-bottom: 5px;
+          margin-top: 25px;
+        }
+        h3 { font-size: 11.5pt; margin-bottom: 3px; }
+        p { margin: 5px 0 10px; }
+        .role { font-weight: bold; }
+        .meta, .contact { color: #806f77; font-size: 9pt; }
+        article { margin-bottom: 15px; break-inside: avoid; }
+        li { margin-bottom: 5px; }
+        a { color: #b95178; overflow-wrap: anywhere; }
+        footer {
+          border-top: 1px solid #f0dce4;
+          padding-top: 10px;
+          margin-top: 30px;
+          font-size: 9pt;
+        }
+        .print-controls {
+          position: sticky;
+          top: 0;
+          background: white;
+          padding: 12px 0;
+        }
+        .print-controls button {
+          border: 0;
+          border-radius: 6px;
+          background: #b95178;
+          color: white;
+          padding: 11px 17px;
+          margin-right: 8px;
+          cursor: pointer;
+        }
+        @media print {
+          .print-controls { display: none; }
+          body { max-width: none; }
+          a { color: #44343b; text-decoration: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="print-controls">
+        <button onclick="window.print()">Print / Save as PDF</button>
+        <button onclick="window.close()">Close</button>
+      </div>
+
+      <header>
+        <h1>${escapeHtml(profile.name)}</h1>
+        <p class="role">${escapeHtml(profile.role)}</p>
+        <p>${escapeHtml(profile.bio)}</p>
+        <p class="contact">
+          Email: ${escapeHtml(profile.email)}<br>
+          Phone: ${escapeHtml(profile.phone)}<br>
+          Location: ${escapeHtml(profile.location)}<br>
+          LinkedIn:
+          <a href="${escapeHtml(profile.linkedin)}">${escapeHtml(profile.linkedin)}</a>
+        </p>
+      </header>
+
+      <section>
+        <h2>Education & Qualifications</h2>
+        <article>
+          <h3>Bachelor of Secondary Education, Major in English</h3>
+          <p>University of Mindanao | 2023–2024</p>
+        </article>
+        <article>
+          <h3>Licensed Professional Teacher (LPT)</h3>
+          <p>March 2025</p>
+        </article>
+        <article>
+          <h3>Senior High School — HUMSS</h3>
+          <p>Holy Cross College of Calinan | 2018–2019</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Core Skills</h2>
+        <ul>${skillsHTML}</ul>
+      </section>
+
+      <section>
+        <h2>Leadership Experience</h2>
+        ${experienceHTML}
+      </section>
+
+      <section>
+        <h2>Community Projects & Initiatives</h2>
+        ${projectsHTML}
+      </section>
+
+      <section>
+        <h2>Certificates & Recognition</h2>
+        <p>Certificates and achievements presented in the online portfolio:</p>
+        <ol>${certificatesHTML}</ol>
+      </section>
+
+      <section>
+        <h2>Public Service & SK Duties</h2>
+        ${dutiesHTML}
+      </section>
+
+      <footer>
+        ${escapeHtml(profile.name)} · Education · Leadership · Community Service
+      </footer>
+
+      <script>
+        window.onload = () => setTimeout(() => window.print(), 400)
+      <\/script>
+    </body>
+    </html>
+  `)
+
+  printWindow.document.close()
+}
 
 function Header() {
   const [open, setOpen] = React.useState(false)
@@ -140,6 +366,16 @@ function Header() {
             </NavLink>
           ))}
         </nav>
+
+        <button
+          type="button"
+          className="btn btn-primary print-portfolio-btn"
+          onClick={printPortfolio}
+          title="Print or save portfolio as PDF"
+        >
+          <Printer size={16} />
+          <span>Print Portfolio</span>
+        </button>
       </div>
     </header>
   )
@@ -401,25 +637,6 @@ function Home() {
 }
 
 function About() {
-  const skills = [
-    {
-      title: 'Leadership & Governance',
-      description: 'Youth advocacy, public administration, facilitation, and action planning.'
-    },
-    {
-      title: 'Education & Instruction',
-      description: 'Lesson planning, literacy support, classroom management, and instructional communication.'
-    },
-    {
-      title: 'Community Engagement',
-      description: 'Volunteer coordination, grassroots organizing, and community programs.'
-    },
-    {
-      title: 'Communication',
-      description: 'Public speaking, seminar facilitation, collaboration, and presentation.'
-    }
-  ]
-
   return (
     <>
       <main className="container inner-page">
@@ -443,7 +660,6 @@ function About() {
             <h2>Grounded in learning.<br /><em>Driven by service.</em></h2>
 
             <p>{profile.bio}</p>
-
             <p>
               My experiences in youth governance, community mobilization,
               values-based leadership, and literacy support have helped
@@ -513,7 +729,6 @@ function About() {
         <section className="section soft-section">
           <span className="eyebrow">CORE SKILLS</span>
           <h2>Skills I bring to the <em>table.</em></h2>
-
           <div className="skills-grid">
             {skills.map(skill => (
               <div className="skill-row" key={skill.title}>
@@ -570,7 +785,6 @@ function Experience() {
         <section className="section project-section">
           <span className="eyebrow">SELECTED INITIATIVES</span>
           <h2>Projects with a <em>purpose.</em></h2>
-
           <div className="project-grid">
             {projects.map((project, index) => (
               <article className="project-card" key={project.title}>
@@ -599,11 +813,10 @@ function Certificates() {
     if (!track) return
 
     const card = track.querySelector('.certificate-card')
-    const gap = 24
     const width = card ? card.getBoundingClientRect().width : 300
 
     track.scrollBy({
-      left: direction * (width + gap) * 2,
+      left: direction * (width + 24) * 2,
       behavior: 'smooth'
     })
   }
@@ -681,29 +894,6 @@ function Certificates() {
 }
 
 function SKDuties() {
-  const duties = [
-    {
-      file: 'SK1.jpg',
-      title: 'Youth Representation & Governance',
-      description: 'I represent youth concerns in local governance and support youth-focused planning, participation, and policies that respond to the needs of our community.'
-    },
-    {
-      file: 'SK2.jpg',
-      title: 'Education & Student Support',
-      description: 'I support community education initiatives, including Balik Eskwela activities, learning supplies, and school readiness efforts for students.'
-    },
-    {
-      file: 'SK3.jpg',
-      title: 'Youth Development & Engagement',
-      description: 'I help coordinate youth-focused programs that encourage active participation, inclusion, leadership, and empowerment.'
-    },
-    {
-      file: 'SK4.jpg',
-      title: 'Community Service & Collaboration',
-      description: 'I work with volunteers, school personnel, and community partners to support projects that respond to local needs and promote cooperation.'
-    }
-  ]
-
   return (
     <>
       <main className="container inner-page">
@@ -769,6 +959,21 @@ function Contact() {
               {profile.phone} <ExternalLink size={15} />
             </a>
             <p>Feel free to contact me by phone when appropriate.</p>
+          </article>
+
+          <article className="contact-card">
+            <span className="feature-icon"><Linkedin /></span>
+            <span className="card-kicker">LINKEDIN</span>
+            <h3>Connect with me professionally.</h3>
+            <a
+              className="contact-link"
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View my LinkedIn profile <ExternalLink size={15} />
+            </a>
+            <p>Connect with me for professional networking and opportunities.</p>
           </article>
 
           <article className="contact-card wide">
