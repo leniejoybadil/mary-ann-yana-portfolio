@@ -131,11 +131,12 @@ const duties = [
   }
 ]
 
+
 function printPortfolio() {
   const printWindow = window.open('', '_blank')
 
   if (!printWindow) {
-    alert('Please allow pop-ups for this website to print or save your portfolio.')
+    alert('Please allow pop-ups for this website to print your portfolio.')
     return
   }
 
@@ -148,179 +149,542 @@ function printPortfolio() {
       "'": '&#39;'
     })[char])
 
-  const experienceHTML = experience.map(item => `
-    <article>
-      <h3>${escapeHtml(item.title)}</h3>
-      <p class="meta">${escapeHtml(item.place)} · ${escapeHtml(item.period)}</p>
-      <p>${escapeHtml(item.text)}</p>
+  // Use images stored in your public folder.
+  const img = file =>
+    `${window.location.origin}/${file}`
+
+  const image = (file, alt, className = '') => `
+    <img
+      src="${img(file)}"
+      alt="${escapeHtml(alt)}"
+      class="${className}"
+    />
+  `
+
+  const experienceHTML = experience.map((item, i) => `
+    <article class="item">
+      <span class="number">${String(i + 1).padStart(2, '0')}</span>
+      <div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p class="meta">${escapeHtml(item.place)} · ${escapeHtml(item.period)}</p>
+        <p>${escapeHtml(item.text)}</p>
+      </div>
     </article>
   `).join('')
 
   const projectsHTML = projects.map(item => `
-    <article>
+    <article class="card">
+      <span class="tag">${escapeHtml(item.tag)}</span>
       <h3>${escapeHtml(item.title)}</h3>
-      <p class="meta">${escapeHtml(item.place)} · ${escapeHtml(item.tag)}</p>
+      <p class="meta">${escapeHtml(item.place)}</p>
       <p>${escapeHtml(item.text)}</p>
     </article>
   `).join('')
 
   const skillsHTML = skills.map(item => `
-    <li><strong>${escapeHtml(item.title)}:</strong>
-    ${escapeHtml(item.description)}</li>
-  `).join('')
-
-  const certificatesHTML = certificates.map(item =>
-    `<li>${escapeHtml(item.title)}</li>`
-  ).join('')
-
-  const dutiesHTML = duties.map(item => `
-    <article>
+    <article class="skill">
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.description)}</p>
     </article>
   `).join('')
 
+  const certificatesHTML = certificates.map((item, i) => `
+    <article class="certificate">
+      ${image(item.file, item.title)}
+      <p>${String(i + 1).padStart(2, '0')} · ${escapeHtml(item.title)}</p>
+    </article>
+  `).join('')
+
+  const dutiesHTML = duties.map(item => `
+    <article class="duty">
+      ${image(item.file, item.title)}
+      <div class="duty-copy">
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.description)}</p>
+      </div>
+    </article>
+  `).join('')
+
+  printWindow.document.open()
   printWindow.document.write(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>${escapeHtml(profile.name)} - Professional Portfolio</title>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>${escapeHtml(profile.name)} — Professional Portfolio</title>
+
       <style>
-        @page { size: A4; margin: 18mm; }
-        * { box-sizing: border-box; }
+        @page {
+          size: A4;
+          margin: 12mm;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        :root {
+          --pink: #b95178;
+          --pink-light: #f9edf2;
+          --pink-border: #eed5df;
+          --ink: #44343b;
+          --muted: #806f77;
+          --paper: #fffafc;
+        }
+
+        html {
+          background: white;
+        }
+
         body {
-          font-family: Arial, sans-serif;
-          color: #44343b;
-          line-height: 1.6;
-          font-size: 10.5pt;
-          max-width: 800px;
           margin: 0 auto;
+          max-width: 900px;
+          color: var(--ink);
+          background: white;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 10pt;
+          line-height: 1.6;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
-        header {
-          border-bottom: 3px solid #b95178;
-          padding-bottom: 18px;
-          margin-bottom: 25px;
+
+        img {
+          display: block;
+          max-width: 100%;
+          object-fit: cover;
         }
-        h1 { color: #b95178; font-size: 27pt; margin: 0 0 5px; }
+
+        h1, h2, h3, p {
+          margin-top: 0;
+        }
+
+        h1, h2 {
+          font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        h1 {
+          margin-bottom: 8px;
+          color: var(--pink);
+          font-size: 30pt;
+          line-height: 1.12;
+        }
+
         h2 {
-          color: #b95178;
-          font-size: 16pt;
-          border-bottom: 1px solid #f0dce4;
-          padding-bottom: 5px;
-          margin-top: 25px;
+          margin-bottom: 14px;
+          color: var(--pink);
+          font-size: 19pt;
+          line-height: 1.25;
         }
-        h3 { font-size: 11.5pt; margin-bottom: 3px; }
-        p { margin: 5px 0 10px; }
-        .role { font-weight: bold; }
-        .meta, .contact { color: #806f77; font-size: 9pt; }
-        article { margin-bottom: 15px; break-inside: avoid; }
-        li { margin-bottom: 5px; }
-        a { color: #b95178; overflow-wrap: anywhere; }
-        footer {
-          border-top: 1px solid #f0dce4;
-          padding-top: 10px;
-          margin-top: 30px;
-          font-size: 9pt;
+
+        h3 {
+          margin-bottom: 5px;
+          font-size: 11pt;
+          line-height: 1.35;
         }
-        .print-controls {
+
+        p {
+          margin-bottom: 8px;
+        }
+
+        .toolbar {
           position: sticky;
           top: 0;
+          z-index: 5;
+          display: flex;
+          gap: 10px;
+          padding: 12px;
           background: white;
-          padding: 12px 0;
+          border-bottom: 1px solid var(--pink-border);
         }
-        .print-controls button {
+
+        .toolbar button {
           border: 0;
-          border-radius: 6px;
-          background: #b95178;
+          border-radius: 7px;
+          padding: 11px 16px;
+          background: var(--pink);
           color: white;
-          padding: 11px 17px;
-          margin-right: 8px;
+          font-size: 14px;
           cursor: pointer;
         }
+
+        .toolbar .secondary {
+          background: var(--pink-light);
+          color: var(--ink);
+        }
+
+        .hero {
+          display: grid;
+          grid-template-columns: 1fr 155px;
+          gap: 24px;
+          align-items: center;
+          padding: 26px 0;
+          border-bottom: 3px solid var(--pink);
+        }
+
+        .eyebrow {
+          margin-bottom: 9px;
+          color: var(--pink);
+          font-size: 8pt;
+          font-weight: bold;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+
+        .role {
+          margin-bottom: 12px;
+          font-weight: bold;
+        }
+
+        .portrait {
+          width: 155px;
+          height: 185px;
+          border-radius: 75px 75px 12px 12px;
+          border: 4px solid var(--pink-light);
+          object-position: center top;
+        }
+
+        .contact {
+          margin-top: 14px;
+          color: var(--muted);
+          font-size: 8.5pt;
+          overflow-wrap: anywhere;
+        }
+
+        .contact a {
+          color: var(--pink);
+          overflow-wrap: anywhere;
+        }
+
+        section {
+          margin-top: 25px;
+        }
+
+        .section-label {
+          margin-bottom: 6px;
+          color: var(--pink);
+          font-size: 8pt;
+          font-weight: bold;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+        }
+
+        .panel {
+          padding: 15px;
+          border: 1px solid var(--pink-border);
+          border-radius: 10px;
+          background: var(--paper);
+        }
+
+        .education-grid,
+        .skills-grid,
+        .project-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .education-item,
+        .skill,
+        .card {
+          padding: 13px;
+          border: 1px solid var(--pink-border);
+          border-radius: 9px;
+          background: var(--paper);
+          break-inside: avoid;
+        }
+
+        .education-item p,
+        .skill p,
+        .card p {
+          margin-bottom: 0;
+        }
+
+        .meta {
+          color: var(--muted);
+          font-size: 8.5pt;
+        }
+
+        .timeline {
+          display: grid;
+          gap: 13px;
+        }
+
+        .item {
+          display: grid;
+          grid-template-columns: 30px 1fr;
+          gap: 12px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid var(--pink-border);
+          break-inside: avoid;
+        }
+
+        .number {
+          display: grid;
+          width: 29px;
+          height: 29px;
+          place-items: center;
+          border-radius: 50%;
+          background: var(--pink-light);
+          color: var(--pink);
+          font-weight: bold;
+        }
+
+        .tag {
+          display: inline-block;
+          margin-bottom: 7px;
+          color: var(--pink);
+          font-size: 8pt;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        .gallery {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .certificate {
+          margin: 0;
+          padding: 8px;
+          border: 1px solid var(--pink-border);
+          border-radius: 8px;
+          background: var(--paper);
+          break-inside: avoid;
+        }
+
+        .certificate img {
+          width: 100%;
+          height: 150px;
+          object-fit: contain;
+          background: white;
+        }
+
+        .certificate p {
+          margin: 8px 0 2px;
+          color: var(--ink);
+          font-size: 8.5pt;
+          text-align: center;
+        }
+
+        .duties-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+        }
+
+        .duty {
+          overflow: hidden;
+          border: 1px solid var(--pink-border);
+          border-radius: 10px;
+          break-inside: avoid;
+        }
+
+        .duty img {
+          width: 100%;
+          height: 170px;
+          object-fit: cover;
+        }
+
+        .duty-copy {
+          padding: 12px;
+          background: var(--paper);
+        }
+
+        .duty-copy p {
+          margin-bottom: 0;
+        }
+
+        .lpt-layout {
+          display: grid;
+          grid-template-columns: 1fr 200px;
+          gap: 18px;
+          align-items: start;
+        }
+
+        .lpt-image {
+          width: 100%;
+          max-height: 250px;
+          object-fit: contain;
+          border: 1px solid var(--pink-border);
+          border-radius: 8px;
+        }
+
+        .footer {
+          margin-top: 30px;
+          padding-top: 14px;
+          border-top: 2px solid var(--pink);
+          color: var(--muted);
+          font-size: 8.5pt;
+        }
+
+        a {
+          overflow-wrap: anywhere;
+        }
+
+        @media screen {
+          body {
+            padding: 20px;
+          }
+        }
+
         @media print {
-          .print-controls { display: none; }
-          body { max-width: none; }
-          a { color: #44343b; text-decoration: none; }
+          .toolbar {
+            display: none !important;
+          }
+
+          body {
+            max-width: none;
+          }
+
+          section {
+            break-inside: auto;
+          }
+
+          .education-item,
+          .skill,
+          .card,
+          .item,
+          .certificate,
+          .duty {
+            break-inside: avoid;
+          }
+
+          a {
+            color: var(--ink);
+            text-decoration: none;
+          }
         }
       </style>
     </head>
+
     <body>
-      <div class="print-controls">
+      <div class="toolbar">
         <button onclick="window.print()">Print / Save as PDF</button>
-        <button onclick="window.close()">Close</button>
+        <button class="secondary" onclick="window.close()">Close</button>
       </div>
 
-      <header>
-        <h1>${escapeHtml(profile.name)}</h1>
-        <p class="role">${escapeHtml(profile.role)}</p>
-        <p>${escapeHtml(profile.bio)}</p>
-        <p class="contact">
-          Email: ${escapeHtml(profile.email)}<br>
-          Phone: ${escapeHtml(profile.phone)}<br>
-          Location: ${escapeHtml(profile.location)}<br>
-          LinkedIn:
-          <a href="${escapeHtml(profile.linkedin)}">${escapeHtml(profile.linkedin)}</a>
-        </p>
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Professional Portfolio</p>
+          <h1>${escapeHtml(profile.name)}</h1>
+          <p class="role">${escapeHtml(profile.role)}</p>
+          <p>${escapeHtml(profile.bio)}</p>
+
+          <div class="contact">
+            <strong>Email:</strong>
+            <a href="mailto:${escapeHtml(profile.email)}">${escapeHtml(profile.email)}</a><br />
+            <strong>Phone:</strong> ${escapeHtml(profile.phone)}<br />
+            <strong>Location:</strong> ${escapeHtml(profile.location)}<br />
+            <strong>LinkedIn:</strong>
+            <a href="${escapeHtml(profile.linkedin)}">View LinkedIn Profile</a>
+          </div>
+        </div>
+        ${image('ME2.jpg', profile.name, 'portrait')}
       </header>
 
       <section>
+        <p class="section-label">My Background</p>
         <h2>Education & Qualifications</h2>
-        <article>
-          <h3>Bachelor of Secondary Education, Major in English</h3>
-          <p>University of Mindanao | 2023–2024</p>
-        </article>
-        <article>
-          <h3>Licensed Professional Teacher (LPT)</h3>
-          <p>March 2025</p>
-        </article>
-        <article>
-          <h3>Senior High School — HUMSS</h3>
-          <p>Holy Cross College of Calinan | 2018–2019</p>
-        </article>
+        <div class="education-grid">
+          <article class="education-item">
+            <h3>Bachelor of Secondary Education, Major in English</h3>
+            <p>University of Mindanao</p>
+            <p class="meta">2023–2024</p>
+          </article>
+          <article class="education-item">
+            <h3>Licensed Professional Teacher (LPT)</h3>
+            <p>Professional qualification</p>
+            <p class="meta">March 2025</p>
+          </article>
+          <article class="education-item">
+            <h3>Senior High School — HUMSS</h3>
+            <p>Holy Cross College of Calinan</p>
+            <p class="meta">2018–2019</p>
+          </article>
+          <article class="education-item">
+            <h3>Youth Leadership</h3>
+            <p>TFYD President and PSB / Youth President</p>
+            <p class="meta">2014–2024</p>
+          </article>
+        </div>
       </section>
 
       <section>
+        <p class="section-label">Professional Milestone</p>
+        <h2>Licensed Professional Teacher</h2>
+        <div class="lpt-layout">
+          <div>
+            <p>Becoming a Licensed Professional Teacher is an important milestone in my educational journey. It strengthens my commitment to education, lifelong learning, and serving as a positive influence in the community.</p>
+          </div>
+          ${image('LPT.jpg', 'Licensed Professional Teacher board-exam passer list', 'lpt-image')}
+        </div>
+      </section>
+
+      <section>
+        <p class="section-label">What I Bring</p>
         <h2>Core Skills</h2>
-        <ul>${skillsHTML}</ul>
+        <div class="skills-grid">${skillsHTML}</div>
       </section>
 
       <section>
+        <p class="section-label">My Journey</p>
         <h2>Leadership Experience</h2>
-        ${experienceHTML}
+        <div class="timeline">${experienceHTML}</div>
       </section>
 
       <section>
-        <h2>Community Projects & Initiatives</h2>
-        ${projectsHTML}
+        <p class="section-label">Community Impact</p>
+        <h2>Projects & Initiatives</h2>
+        <div class="project-grid">${projectsHTML}</div>
       </section>
 
       <section>
-        <h2>Certificates & Recognition</h2>
-        <p>Certificates and achievements presented in the online portfolio:</p>
-        <ol>${certificatesHTML}</ol>
+        <p class="section-label">Recognition & Learning</p>
+        <h2>Certificates & Achievements</h2>
+        <div class="gallery">${certificatesHTML}</div>
       </section>
 
       <section>
-        <h2>Public Service & SK Duties</h2>
-        ${dutiesHTML}
+        <p class="section-label">Public Service</p>
+        <h2>SK Duties & Community Work</h2>
+        <div class="duties-grid">${dutiesHTML}</div>
       </section>
 
-      <footer>
-        ${escapeHtml(profile.name)} · Education · Leadership · Community Service
+      <footer class="footer">
+        <strong>${escapeHtml(profile.name)}</strong><br />
+        Education · Leadership · Community Service<br />
+        ${escapeHtml(profile.email)} · ${escapeHtml(profile.phone)}
       </footer>
 
       <script>
-        window.onload = () => setTimeout(() => window.print(), 400)
+        window.addEventListener('load', async () => {
+          const images = Array.from(document.images);
+
+          await Promise.all(images.map(image => {
+            if (image.complete && image.naturalWidth > 0) {
+              return Promise.resolve();
+            }
+
+            if (image.decode) {
+              return image.decode().catch(() => {});
+            }
+
+            return new Promise(resolve => {
+              image.onload = resolve;
+              image.onerror = resolve;
+            });
+          }));
+
+          setTimeout(() => window.print(), 700);
+        });
       <\/script>
     </body>
     </html>
   `)
-
   printWindow.document.close()
 }
-
 function Header() {
   const [open, setOpen] = React.useState(false)
 
