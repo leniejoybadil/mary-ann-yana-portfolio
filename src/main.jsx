@@ -110,12 +110,12 @@ const skills = [
 
 const duties = [
   {
-    file: 'SK1.jpg',
+    file: 'SK2.jpg',
     title: 'Youth Representation & Governance',
     description: 'I represent youth concerns in local governance and support youth-focused planning, participation, and policies that respond to the needs of our community.'
   },
   {
-    file: 'SK2.jpg',
+    file: 'SK1.jpg',
     title: 'Education & Student Support',
     description: 'I support community education initiatives, including Balik Eskwela activities, learning supplies, and school readiness efforts for students.'
   },
